@@ -20,8 +20,8 @@
                 href=" {{ url_for('user.home') }}">Home</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="exploreDropdown" role="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle
+                 {% if request.path == url_for('user.browse') %}active{% endif %}" href="#" id="exploreDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Explore
                 </a>
                 <div class="dropdown-menu" aria-labelledby="exploreDropdown">
@@ -36,7 +36,8 @@
 
             {% if current_user.is_authenticated %}
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                <a class="nav-link dropdown-toggle
+                {% if request.path == url_for('user.u', username=current_user.username) %}active{% endif %}" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     My Profile (@{{ current_user.username }})
                 </a>

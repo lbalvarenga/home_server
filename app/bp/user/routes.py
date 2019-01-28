@@ -75,7 +75,7 @@ def unfollow(username):
     return redirect(request.referrer)
 
 # Users browser
-@user.route("/browse/")
+@user.route("/users/browse/")
 @login_required
 def browse():
     users = User.query.all()
