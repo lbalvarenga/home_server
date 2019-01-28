@@ -20,31 +20,31 @@ Follow the steps below on your command line to set-up the environment.
 
 \#1: Setting up the environment
 
-```python
+```
 py -m venv env
 ```
 
 \#2: Activating the environment:
 
-```python
+```
 .\env\Scripts\activate
 ```
 
 \#3: Installing the required packages:
 
-```python
+```
 pip install -r requirements.txt
 ```
 
 \#4: Generating the *home_server* database:
 
-```python
+```
 flask db upgrade
 ```
 
 \#5: Running the server:
 
-```python
+```
 flask run
 ```
 
@@ -52,31 +52,31 @@ flask run
 
 \#1: Setting up the environment
 
-```python
+```
 python3 -m venv env
 ```
 
 \#2: Activating the environment:
 
-```python
+```
 source env/bin/activate
 ```
 
 \#3: Installing the required packages:
 
-```python
+```
 pip install -r requirements.txt
 ```
 
 \#4: Generating the *home_server* database:
 
-```python
+```
 flask db upgrade
 ```
 
 \#5: Running the server:
 
-```python
+```
 flask run --host=0.0.0.0
 ```
 
