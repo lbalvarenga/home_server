@@ -89,6 +89,7 @@ def u(username):
     message_form = MessageForm()
     clear_message_form = ClearMessageForm()
     user = User.query.filter_by(username=username).first_or_404()
+    current_user.message_sent = True
 
     if user != current_user:
         if message_form.validate_on_submit():
@@ -99,9 +100,10 @@ def u(username):
             )
             db.session.add(message)
             db.session.commit()
-            return redirect(url_for("user.user", username=current_user.username))
+            return redirect(url_for("user.u", username=current_user.username))
     
     if user == current_user:
+        ### NOT IMPLEMENTED ON PAGE ###
         if clear_message_form.validate_on_submit():
             print(clear_message_form.message_id.data)
             message = Message.query.filter_by(id=clear_message_form.message_id.data).first()
