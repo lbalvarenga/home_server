@@ -79,7 +79,7 @@ def unfollow(username):
 @login_required
 def browse():
     users = User.query.all()
-    return render_template("users.html", users=users)
+    return render_template("browse.html", users=users)
 
 # User page
 @user.route("/u/<username>/", methods=("GET", "POST"))

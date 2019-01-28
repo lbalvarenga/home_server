@@ -106,10 +106,18 @@
                 <form method="POST" style="margin:5px;display:block;min-height:220px;height:1;overflow:scroll;">
                     {{ message_form.hidden_tag() }}
                     <div class="form-group">
-                        {{ render_field(message_form.message_subject, class="form-control", placeholder="Subject") }}
+                        {{ render_field(message_form.message_subject,
+                            class="form-control",
+                            placeholder="Subject",
+                            autocomplete="off")
+                        }}
                     </div>
                     <div class="form-group">
-                         {{ render_field(message_form.message_textarea, class="form-control", placeholder="Message") }}
+                         {{ render_field(message_form.message_textarea,
+                            class="form-control",
+                            placeholder="Message",
+                            autocomplete="off")
+                        }}
                     </div>
                     {{ message_form.message_submit(class="btn btn-primary") }}
                 </form>
