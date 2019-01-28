@@ -21,7 +21,7 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle
-                 {% if request.path == url_for('user.browse') %}active{% endif %}" href="#" id="exploreDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                 {% if request.path == url_for('user.browse') or request.path == url_for('about') %}active{% endif %}" href="#" id="exploreDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Explore
                 </a>
                 <div class="dropdown-menu" aria-labelledby="exploreDropdown">
@@ -30,7 +30,7 @@
 
                     <div class="dropdown-divider"></div>
                     {% endif %}
-                    <a class="dropdown-item" href="#">About</a>
+                    <a class="dropdown-item" href="{{ url_for('about') }}">About</a>
                 </div>
             </li>
 
