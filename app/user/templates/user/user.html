@@ -25,7 +25,7 @@
         <div class="card-body">
             <h2 class="card-title">@{{ user.username }}</h2>
 
-            <h5 class="cart-text">
+            <h5 class="card-text">
                 {% if user.followers.count() == 0 %}No Followers{% endif %}{% if user.followers.count() >= 1 %}{{ user.followers.count() }} Follower{% endif %}{% if user.followers.count() >  1 %}s{% endif %}{% if user.following.count() >= 1 %}, {{ user.following.count() }} Following
                 {% endif %}
             </h5>
@@ -37,7 +37,7 @@
                     </a>
                 {% else %}
                     <a href="{{ url_for('user.unfollow', username=user.username) }}">
-                        <h6>Unfollow</h6>
+                        <h6 class="text-danger">Unfollow</h6>
                     </a>
                 {% endif %}
             {% endif%}
@@ -99,7 +99,7 @@
                 </div>
                 {% endfor %}
         </div>
-    {% else %}
+    {% elif current_user.is_following(user) %}
         <div class="card col-md-4">
             <div class="card-body p-0">
                 <h5 style="margin:5px;">Message @{{ user.username }}</h5>
@@ -113,6 +113,14 @@
                     </div>
                     {{ message_form.message_submit(class="btn btn-primary") }}
                 </form>
+            </div>
+        </div>
+    {% else %}
+        <div class="card col-md-4">
+            <div class="card-body p-0">
+                <h5 class="text-center" style="margin:5px;">
+                    <a href="{{ url_for('user.follow', username=user.username) }}">Follow</a> @{{ user.username }} to message
+                </h5>
             </div>
         </div>
     {% endif %}
