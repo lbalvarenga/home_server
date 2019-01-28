@@ -36,7 +36,7 @@ def edit():
                         setattr(user, key, value)
 
             db.session.commit()
-        return redirect(url_for("user.user", username=current_user.username))
+        return redirect(url_for("user.u", username=current_user.username))
 
     return render_template("edit.html", edit_form=edit_form, user=current_user)
 
