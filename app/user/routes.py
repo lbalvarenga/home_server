@@ -1,4 +1,4 @@
-from flask import redirect, render_template, url_for
+from flask import redirect, render_template, url_for, request
 from flask_login import current_user, login_required
 from app import db
 from app.models import User, Message
@@ -54,12 +54,12 @@ def home():
 def follow(username):
     user = User.query.filter_by(username=username).first()
     if not user or user is current_user:
-        return redirect(url_for("user.home"))
+        return redirect(url_for("user.u", username=username))
 
     current_user.follow(user)
     db.session.commit()
 
-    return redirect(url_for("user.user", username=username))
+    return redirect(request.referrer)
 
 # Unfollow <username>
 @user.route("/uf/<username>/")
@@ -67,17 +67,24 @@ def follow(username):
 def unfollow(username):
     user = User.query.filter_by(username=username).first()
     if not user or user is current_user:
-        return redirect(url_for("user.home"))
+        return redirect(url_for("user.u", username=username))
 
     current_user.unfollow(user)
     db.session.commit()
 
-    return redirect(url_for("user.user", username=username))
+    return redirect(request.referrer)
+
+# Users browser
+@user.route("/browse/")
+@login_required
+def browse():
+    users = User.query.all()
+    return render_template("users.html", users=users)
 
 # User page
 @user.route("/u/<username>/", methods=("GET", "POST"))
 @login_required
-def user(username):
+def u(username):
     messages = None
     message_form = MessageForm()
     clear_message_form = ClearMessageForm()

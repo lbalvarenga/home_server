@@ -26,7 +26,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="exploreDropdown">
                     {% if current_user.is_authenticated %}
-                    <a class="dropdown-item" href="#">Users</a>
+                    <a class="dropdown-item" href="{{ url_for('user.browse') }}">Users</a>
 
                     <div class="dropdown-divider"></div>
                     {% endif %}
@@ -41,7 +41,7 @@
                     My Profile (@{{ current_user.username }})
                 </a>
                 <div class="dropdown-menu" aria-labelledby="userDropdown">
-                <a class="dropdown-item text-primary" href="{{ url_for('user.user', username=current_user.username) }}">
+                <a class="dropdown-item text-primary" href="{{ url_for('user.u', username=current_user.username) }}">
                     View Profile
                 </a>
 
