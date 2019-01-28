@@ -1,0 +1,60 @@
+<title>About - Home Server</title>
+
+{% extends "navbar.html" %}
+
+{% block content %}
+
+<div class="jumbotron" id="jumbo">
+    <h1 class="display-4">What's this?</h1>
+    <p class="lead">
+        This is a Home Server that allows users connected to the same WiFi network to share pictures, documents
+        and other files. Written with <a href="http://flask.pocoo.org/" target="_blank">Flask</a> and
+        <a href="https://getbootstrap.com/" target="_blank">Bootstrap</a>.
+        <a href="https://github.com/lukeathedev/home_server/blob/master/README.md" target="_blank">More info</a>.
+    </p>
+
+    <hr class="my-4">
+
+    <p>
+        This project started when I've decided to create a file sharing platform
+        that would double as a local social media network, where users are able to
+        follow, message and share files with each other. Although far from perfect,
+        this is a great introductory to Flask and Bootstrap web development. If you're
+        interested, the project is hosted <a href="https://github.com/lukeathedev/home_server"
+        target="_blank">
+        here</a>.
+    </p>
+
+    <hr class="my-4">
+
+    <h1 class="display-4">Who developed it?</h1>
+    <p class="lead">
+        This web platform is brought to you by
+        <a href="https://github.com/lukeathedev/" target="_blank">lukeathedev</a>.
+    </p>
+    <hr>
+    <p>
+        For a very long time I've been interested in programming and computer science
+        in general. This project presented a great opportunity to expand my skill set
+        while having fun developing a social-media like website. Even though my favorite
+        topics involve low-level programming, web development is definetely pretty fun!
+        If you access my GitHub profile, you'll notice it's pretty empty! That's because
+        up until this point I wasn't all that serious about programming (if you can even
+        call HTML development programming), but recently decided to make something for
+        real.
+    </p>
+
+    <hr class="my-4">
+
+    {% if not current_user.is_authenticated %}
+        <h1 class="display-4">What now?</h1>
+        <p class="lead">
+            What are you waiting for? Go back and <a href="{{ url_for('auth.login') }}">Register</a>!
+        </p>
+        
+        <hr class="my-4">
+    {% endif %}
+    
+</div>
+
+{% endblock %}
