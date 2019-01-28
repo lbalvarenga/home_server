@@ -1,50 +1,33 @@
-{% if user.username == current_user.username %}
-    <title>Your Profile - Home Server</title>
-{% else %}
-    <title>@{{ user.username }}'s Profile - Home Server</title>
-{% endif %}
+<title>Your profile - Home Server</title>
 
 {% extends "navbar.html" %}
 
 {% block content %}
 
-<div class="form-row mt-2 mb-4" >
-
-    <!-- Profile picture -->
-    <div class="card col-md-3">
-        <div class="card-body mx-auto">
-            <figure class="figure">
-                <img src="{{ user.avatar(256) }}" class="figure-img img-fluid rounded">
-                <figcaption class="figure-caption text-center">Last seen {{ moment(user.last_seen).fromNow() }}.</figcaption>
-            </figure>
-        </div>
+{% if current_user.message_sent %}
+    <div class="alert alert-success m-0" role="alert">
+        Your message has been successfully sent.
     </div>
+{% endif %}
 
-    <!-- User info -->
-    <div class="card {% if user.username == current_user.username %}col-md-4{% else %}col-md-5{% endif %}">
+<div class="form-row m-0 p-0">
+    <div class="card col-md-3">
+
         <div class="card-body">
-            <h2 class="card-title">@{{ user.username }}</h2>
-
-            <h5 class="card-text">
-                {% if user.followers.count() == 0 %}No Followers{% endif %}{% if user.followers.count() >= 1 %}{{ user.followers.count() }} Follower{% endif %}{% if user.followers.count() >  1 %}s{% endif %}{% if user.following.count() >= 1 %}, {{ user.following.count() }} Following
+            <img class="card-img-top" src="{{ user.avatar(2048) }}">
+            <hr class="my-0">
+            <h2 class="card-title mt-2 mb-0">@{{ user.username }}</h2>
+            <small class="card-text text-muted">Last seen {{ moment(user.last_seen).fromNow() }}.</small>
+            <h5 class="card-text mb-0 mt-2">
+                {% if user.followers.count() == 0 %}No Followers{% endif %}{% if user.followers.count() >= 1 %}{{
+                user.followers.count() }} Follower{% endif %}{% if user.followers.count() > 1 %}s{% endif %}
+            </h5>
+            <h5 class="card-text mt-0">
+                {% if
+                user.following.count() >= 1 %}{{ user.following.count() }} Following
                 {% endif %}
             </h5>
-            
-            {% if user.username != current_user.username %}
-                {% if not current_user.is_following(user) %}
-                    <a href="{{ url_for('user.follow', username=user.username) }}">
-                        <h6>Follow</h6>
-                    </a>
-                {% else %}
-                    <a href="{{ url_for('user.unfollow', username=user.username) }}">
-                        <h6 class="text-danger">Unfollow</h6>
-                    </a>
-                {% endif %}
-            {% endif%}
 
-            {% if user.description %}
-                <h5 class="card-text">"{{ user.description }}"</h5>
-            {% endif %}
             {% if user.birthday %}
                 <h6 class="card-subtitle mb-2 text-muted">
                     Born {{ moment(user.birthday, "YYYY-MM-DD").format('MMM Do, YYYY') }}.
@@ -52,7 +35,7 @@
             {% endif %}
             {% if user.gender %}
                 <h6 class="card-subtitle mb-2 text-muted">
-                    {% if user.gender   == "m" %}Male
+                    {% if user.gender == "m" %}Male
                     {% elif user.gender == "f" %}Female
                     {% elif user.gender == "u" %}Unspecified Gender
                     {% endif %}
@@ -64,81 +47,113 @@
             </h6>
 
             {% if user.username == current_user.username %}
-                <a href="{{ url_for('user.edit') }}"><input class="btn btn-warning mt-2" type="submit" value="Edit Profile"></a>
-                <input class="btn btn-primary mt-2" type="submit" value="Upload File" disabled>
+                <hr>
+                <a href="{{ url_for('user.edit') }}" class="btn btn-info">Edit Profile</a>
+                <a href="#" class="btn btn-primary">Upload</a>
+            {% else %}
+                {% if not current_user.is_following(user) %}
+                    <a href="{{ url_for('user.follow', username=user.username) }}" class="btn btn-primary">
+                        Follow @{{ user.username }}
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('user.unfollow', username=user.username) }}" class="btn btn-danger">
+                        Unfollow @{{ user.username }}
+                    </a>
+                {% endif %}
             {% endif %}
-
         </div>
     </div>
 
-    <!--Messages -->
-    {% set new_messages = current_user.new_messages() %}
-    {% if user.username == current_user.username %}
-        <div class="card col-md-5">
-            <div class="card-body p-0" style="display:block;min-height:200px;height:1;overflow:scroll;">
-                <h5 class="text-center" style="margin:5px;">
-                    Your messages <span class="badge badge-info" id="message_count">{{ new_messages }}</span>
-                </h5>
-
-                {% for message in messages %}
-                {% set username = user.query.filter_by(id=message.sender_id).first().username %}
-                <div class="list-group" id="message{{ loop.index }}">
-                    <div class="list-group-item list-group-item-action">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">{{ message.subject }}</h5>
-                            <small class="text-nowrap">{{ moment(message.timestamp).fromNow() }}</small>
-                        </div>
-                        <p class="mb-1">
-                            {{ message.body }}
-                        </p>
-                        <small>@{{ username }}</small>
-                        <a href="{{ url_for('user.user', username=username) }}">
-                            <small class="float-right"><i>Reply&nbsp;&nbsp;</i></small>
-                        </a>
+    <div class="card col-md-9">
+        <div class="card-body">
+            {% if user.description %}
+                <h4 class="card-title mb-1">About
+                    {% if current_user.username == user.username %}You:{% else %}@{{ user.username }}:{% endif %}
+                </h4>
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <h5 class="card-text text-justify">"{{ user.description }}"</h5>
                     </div>
                 </div>
-                {% endfor %}
-        </div>
-    {% elif current_user.is_following(user) %}
-        <div class="card col-md-4">
-            <div class="card-body p-0">
-                <h5 style="margin:5px;">Message @{{ user.username }}</h5>
-                <form method="POST" style="margin:5px;display:block;min-height:220px;height:1;overflow:scroll;">
-                    {{ message_form.hidden_tag() }}
-                    <div class="form-group">
-                        {{ render_field(message_form.message_subject,
-                            class="form-control",
-                            placeholder="Subject",
-                            autocomplete="off")
-                        }}
-                    </div>
-                    <div class="form-group">
-                         {{ render_field(message_form.message_textarea,
-                            class="form-control",
-                            placeholder="Message",
-                            autocomplete="off")
-                        }}
-                    </div>
-                    {{ message_form.message_submit(class="btn btn-primary") }}
-                </form>
-            </div>
-        </div>
-    {% else %}
-        <div class="card col-md-4">
-            <div class="card-body p-0">
-                <h5 class="text-center" style="margin:5px;">
-                    <a href="{{ url_for('user.follow', username=user.username) }}">Follow</a> @{{ user.username }} to message
+            {% else %}
+                <h5 class="card-text">
+                    No information.
                 </h5>
-            </div>
-        </div>
-    {% endif %}
+            {% endif %}
 
+            {% set new_messages = current_user.new_messages() %}
+            {% if user.username == current_user.username %}
+                <button class="btn btn-primary mb-2" type="button" data-toggle="collapse" data-target="#message_form"
+                aria-expanded="false" aria-controls="message_form" onclick="">
+                    Your messages <span class="badge badge-light">{{ new_messages }}</span>
+                </button>
+                <div id="formGroup">
+                    <div class="collapse mb-2 {% if message_form.errors %}show{% endif %}" id="message_form">
+                        <div class="card card-body"  style="max-height:200px;overflow:scroll;">
+                            {% for message in messages %}
+                            {% set username = user.query.filter_by(id=message.sender_id).first().username %}
+                            <div class="list-group" id="message{{ loop.index }}">
+                                <div class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">{{ message.subject }}</h5>
+                                        <small class="text-nowrap">{{ moment(message.timestamp).fromNow() }}</small>
+                                    </div>
+                                    <p class="mb-1">
+                                        {{ message.body }}
+                                    </p>
+                                    <small>@{{ username }}</small>
+                                    <a href="{{ url_for('user.u', username=username) }}">
+                                        <small class="float-right"><i>Reply&nbsp;&nbsp;</i></small>
+                                    </a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% elif current_user.is_following(user) %}
+                <button class="btn btn-primary mb-2" type="button" data-toggle="collapse" data-target="#message_form"
+                    aria-expanded="false" aria-controls="message_form" onclick="">
+                    Message @{{ user.username }}
+                </button>
+                <div id="formGroup">
+                    <div class="collapse {% if message_form.errors %}show{% endif %}" id="message_form">
+                        <div class="card card-body">
+                            <form method="POST">
+                                {{ message_form.hidden_tag() }}
+
+                                <div class="form-group">
+                                    {{ render_field(message_form.message_subject,
+                                    class="form-control",
+                                    placeholder="Subject",
+                                    autocomplete="off")
+                                    }}
+                                </div>
+                                <div class="form-group">
+                                    {{ render_field(message_form.message_textarea,
+                                    class="form-control",
+                                    placeholder="Message")
+                                    }}
+                                </div>
+                                {{ message_form.message_submit(class="btn btn-outline-success mb-0") }}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <a href="{{ url_for('user.follow', username=user.username) }}" class="btn btn-primary">
+                    Follow @{{ user.username }} 
+                </a><span> to message.</span>
+            {% endif %}
+
+            <h4>Recent Activity:</h4>
+        </div>
+        
+    </div>
 </div>
 
-<!-- {% if user.username == current_user.username %}
-    <h3>Your files</h3>
-{% else %}
-    <h3>@{{ user.username }}'s files</h3>
-{% endif %} -->
+<div>
+    <h2 class="ml-2 mt-3">No content</h2>
+</div>
 
 {% endblock %}

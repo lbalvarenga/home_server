@@ -15,8 +15,12 @@
                 </a>
                 <div class="card-body">
                     <h4 class="card-title">@{{ user.username }}</h4>
-                    <h6 class="card-text">
-                        {% if user.followers.count() == 0 %}No Followers{% endif %}{% if user.followers.count() >= 1 %}{{ user.followers.count() }} Follower{% endif %}{% if user.followers.count() >  1 %}s{% endif %}{% if user.following.count() >= 1 %}, {{ user.following.count() }} Following
+                    <h6 class="card-text mb-0">
+                        {% if user.followers.count() == 0 %}No Followers{% endif %}{% if user.followers.count() >= 1 %}{{ user.followers.count() }} Follower{% endif %}{% if user.followers.count() >  1 %}s{% endif %}
+                        
+                    </h6>
+                    <h6>
+                        {% if user.following.count() >= 1 %} {{ user.following.count() }} Following
                         {% endif %}
                     </h6>
                     
