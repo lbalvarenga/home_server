@@ -1,0 +1,116 @@
+<title>Edit Profile - Home Server</title>
+
+{% extends "navbar.html" %}
+
+{% block content %}
+
+<div class="form-row mt-2 mb-4" >
+
+    <!-- Profile picture -->
+    <div class="card col-md-3 text-center">
+        <div class="card-body">
+            <figure class="figure">
+                <img src="{{ user.avatar(200) }}" class="figure-img img-fluid mx-auto mt-2 d-block rounded">
+            </figure>
+
+            <h3>@{{ current_user.username }}</h3>
+            <h4 class="text-danger">Currently editing</h4>
+        </div>
+    </div>
+
+    <!-- User info -->
+    <div class="card col-md-9">
+        <div class="card-body">
+            <form method="POST">
+                {{ edit_form.hidden_tag() }}
+                <div class="form-group">
+                    {{ render_field(edit_form.password,
+                        class="form-control",
+                        placeholder="Current Password",
+                        style="border-color:crimson;")
+                    }}
+                </div>
+                <div class="form-group">
+                    {{ render_field_with_at_char(edit_form.username,
+                        class="form-control",
+                        placeholder="new_username",
+                        autocomplete="off")
+                    }}
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6">
+                        {{ render_field(edit_form.new_password,
+                            class="form-control mb-2",
+                            placeholder="New Password")
+                        }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ render_field(edit_form.new_password_confirm,
+                            class="form-control mb-2",
+                            placeholder="Confirm Password")
+                        }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ render_field(edit_form.email,
+                        class="form-control",
+                        placeholder="Email",
+                        autocomplete="off")
+                    }}
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        {{ render_field(edit_form.birthday,
+                            class="form-control",
+                            type="date")
+                        }}
+                    </div>
+                    <div class="form-group col-md-7">
+                        {{ render_field(edit_form.description,
+                            class="form-control",
+                            placeholder="Tell us a bit about yourself",
+                            autocomplete="off")
+                        }}
+                    </div>
+                    <div class="form-group col-md-2">
+                        {{ render_field(edit_form.gender,
+                            class="form-control")
+                        }}
+                    </div>
+                </div>
+
+                {{ edit_form.edit_submit(class="btn btn-success") }}
+                <a href="{{ url_for('user.user', username=current_user.username) }}"><button type="button"
+                    class="btn btn-warning">
+                    Discard Changes
+                </button></a>
+                
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+                    Delete Profile
+                </button>
+                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteModalLabel">Are you sure?</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                This action is irreversible.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                {{ edit_form.edit_delete_user_confirm(class="btn btn-danger") }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

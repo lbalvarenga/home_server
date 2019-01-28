@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/icon.png') }}" type="image/x-icon">
+
+    <title>Home Server</title>
+</head>
+
+<body style="overflow: scroll;">
+    <div class="container-fluid w-100 m-0 p-0">
+        <div class="container-fluid w-100 m-0 p-0">
+            <div class="row m-0 p-0">
+                    <div class="col-md-3 p-0">
+                            <div class="card">
+                                <div class="card-body mx-auto">
+                                    <figure class="figure">
+                                        <img src="{{ user.avatar(256) }}" class="figure-img img-fluid rounded">
+                                        <figcaption class="figure-caption text-center">Last seen {{
+                                            moment(user.last_seen).fromNow() }}.</figcaption>
+                                    </figure>
+                                </div>
+                            </div>
+                        </div>
+                <div class="col-md-5 p-0">
+                    <div class="card">
+                        <div class="card-body mx-auto">
+                            <figure class="figure">
+                                <img src="{{ user.avatar(256) }}" class="figure-img img-fluid rounded">
+                                <figcaption class="figure-caption text-center">Last seen {{
+                                    moment(user.last_seen).fromNow() }}.</figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 p-0">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="text-center" style="margin:5px;">
+                                Your messages <span class="badge badge-info">152</span>
+                            </h5>
+
+                            {% for message in messages %}
+                            {% set username = user.query.filter_by(id=message.sender_id).first().username %}
+                            <div class="list-group">
+                                <div class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">{{ message.subject }}</h5>
+                                        <small>{{ moment(message.timestamp).fromNow() }}</small>
+                                    </div>
+                                    <p class="mb-1">
+                                        {{ message.body }}
+                                    </p>
+                                    <small>@{{ username }}</small>
+                                    <a href="{{ url_for('user.user', username=username) }}">
+                                        <small class="float-right"><i>Reply</i></small>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+</body>
+
+</html>

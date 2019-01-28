@@ -1,0 +1,21 @@
+{% extends "navbar.html" %}
+
+{% block content %}
+
+<div class="jumbotron" id="jumbo">
+    <h1 class="display-4">What's this?</h1>
+    <p class="lead">
+        This is a Home Server that allows users connected to the same WiFi network to share pictures, documents
+        and other files. Written with <a href="http://flask.pocoo.org/" target="_blank">Flask</a> and
+        <a href="https://getbootstrap.com/" target="_blank">Bootstrap</a>.
+    </p>
+    <hr class="my-4">
+    <p>
+        You can browse files uploaded by other users by scrolling down, or upload your own by navigating to
+        your profile. Just click on <i>My Profile (@{{ current_user.username }})</i> and then
+        <a href="{{ url_for('user.user', username=current_user.username)}}"class="text-primary">
+            <i>View Profile</i></a>.
+    </p>
+</div>
+
+{% endblock %}

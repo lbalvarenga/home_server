@@ -1,0 +1,133 @@
+{% extends "navbar.html" %}
+
+{% block content %}
+
+{% if register_form.success %}
+    <div class="alert alert-success m-0" role="alert">
+        Your account has been successfully created. You may now login.
+    </div>
+{% endif %}
+
+<div class="jumbotron">
+    
+    <h1 class="display-4">What's this?</h1>
+    <p class="lead">
+        This is a Home Server that allows users connected to the same WiFi network to share pictures, documents
+        and other files. Written with <a href="http://flask.pocoo.org/" target="_blank">Flask</a> and
+        <a href="https://getbootstrap.com/" target="_blank">Bootstrap</a>.
+    </p>
+
+    <hr class="my-4">
+
+    <p>In order to continue, Login or Register.</p>
+    <button class="btn btn-primary btn-lg" type="button" data-toggle="collapse" data-target="#login_form"
+        aria-expanded="false" aria-controls="login_form" onclick="toggler()">
+        Login
+    </button>
+    <button class="btn btn-secondary btn-lg" type="button" data-toggle="collapse" data-target="#register_form"
+        aria-expanded="false" aria-controls="register_form" onclick="toggler()">
+        Register
+    </button>
+    </p>
+    
+    <div id="formGroup">
+
+        <div class="collapse {% if login_form.errors %}show{% endif %}" id="login_form">
+            <div class="card card-body">
+                <form method="POST">
+                    {{ login_form.hidden_tag() }}
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            {{ render_field_with_at_char(login_form.username,
+                                class="form-control",
+                                placeholder="username")
+                            }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ render_field(login_form.password,
+                                class="form-control",
+                                placeholder="Password")
+                            }}
+                        </div>
+                    </div>
+                    <div class="form-group form-check" style="padding-left:0;">
+                        <div class="custom-control custom-checkbox">
+                            {{ login_form.remember_me(class="custom-control-input") }}
+                            {{ login_form.remember_me.label(class="custom-control-label") }}
+                        </div>
+                    </div>
+                    {{ login_form.login_submit(class="btn btn-outline-success") }}
+                </form>
+            </div>
+        </div>
+
+        <div class="collapse {% if register_form.errors %}show{% endif %}" id="register_form">
+            <div class="card card-body">
+                <form method="POST">
+                    {{ register_form.hidden_tag() }}
+                    <div class="form-group">
+                        {{ render_field_with_at_char(register_form.username,
+                            class="form-control",
+                            placeholder="username",
+                            autocomplete="off")
+                        }}
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            {{ render_field(register_form.password,
+                                class="form-control mb-2",
+                                placeholder="Password")
+                            }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ render_field(register_form.password_confirm,
+                                class="form-control mb-2",
+                                placeholder="Confirm Password")
+                            }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {{ render_field(register_form.email,
+                            class="form-control",
+                            placeholder="Email")
+                        }}
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            {{ render_field(register_form.birthday,
+                                class="form-control",
+                                type="date")
+                            }}
+                        </div>
+                        <div class="form-group col-md-7">
+                            {{ render_field(register_form.description,
+                                class="form-control",
+                                placeholder="Tell us a bit about yourself",
+                                autocomplete="off")
+                            }}
+                        </div>
+                        <div class="form-group col-md-2">
+                            {{ render_field(register_form.gender,
+                                class="form-control")
+                            }}
+                        </div>
+                    </div>
+                    {{ register_form.register_submit(class="btn btn-outline-success") }}
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    // Avoids showing login_form and register_form at the same time
+    function toggler() {
+        $("#formGroup").on("show.bs.collapse", ".collapse", function () {
+            $("#formGroup").find(".collapse.show").collapse("hide");
+        });
+    }
+</script>
+
+{% endblock %}
