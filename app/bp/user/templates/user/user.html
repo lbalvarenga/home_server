@@ -10,7 +10,8 @@
 
 {% if current_user.message_sent %}
     <div class="alert alert-success m-0" role="alert">
-        Your message has been successfully sent.
+        Your message has been successfully sent. Go back to<a href="{{ url_for('user.u', username=current_user.username) }}">
+        Your Profile</a>.
     </div>
 {% endif %}
 
@@ -52,8 +53,33 @@
 
             {% if user.username == current_user.username %}
                 <hr>
-                <a href="{{ url_for('user.edit') }}" class="btn btn-info">Edit Profile</a>
-                <a href="#" class="btn btn-primary">Upload</a>
+                <form action="{{ url_for('files.upload') }}" method="POST" enctype="multipart/form-data">
+                    <a href="{{ url_for('user.edit') }}" class="btn btn-info">Edit Profile</a>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal">
+                        Upload
+                    </button>
+                    <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="uploadModalLabel">Upload File</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="file" class="form-control-file" name="file">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <input type="submit" class="btn btn-primary" value="Upload">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
             {% else %}
                 {% if not current_user.is_following(user) %}
                     <a href="{{ url_for('user.follow', username=user.username) }}" class="btn btn-primary">
@@ -94,7 +120,7 @@
                 <div id="formGroup">
                 <form method="POST" id=clearMessageForm>
                 {{ clear_message_form.hidden_tag() }}
-                    <div class="collapse mb-2 {% if current_user.message_removed %}show{% endif %}" id="message_form" style="max-height:500px;overflow:scroll;">
+                    <div class="collapse mb-2 {% if current_user.message_removed %}show{% endif %}" id="message_form" style="max-height:500px;overflow:auto;">
                         <div class="card card-body">
                             {% for message in messages %}
                                 {% set username = user.query.filter_by(id=message.sender_id).first().username %}
