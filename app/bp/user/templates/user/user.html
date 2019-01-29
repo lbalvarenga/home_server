@@ -1,4 +1,8 @@
+{% if user == current_user %}
 <title>Your profile - Home Server</title>
+{% else %}
+<title>@{{ user.username }}'s Profile - Home Server</title>
+{% endif %}
 
 {% extends "navbar.html" %}
 
