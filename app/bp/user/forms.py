@@ -45,4 +45,4 @@ class MessageForm(FlaskForm):
 
 
 class ClearMessageForm(FlaskForm):
-     message_id = HiddenField("test")
+     message_id = HiddenField("clear")

@@ -84,11 +84,13 @@
             {% set new_messages = current_user.new_messages() %}
             {% if user.username == current_user.username %}
                 <button class="btn btn-primary mb-2" type="button" data-toggle="collapse" data-target="#message_form"
-                aria-expanded="false" aria-controls="message_form" onclick="">
+                aria-expanded="false" aria-controls="message_form">
                     Your messages <span class="badge badge-light">{{ new_messages }}</span>
                 </button>
                 <div id="formGroup">
-                    <div class="collapse mb-2" id="message_form" style="max-height:500px;overflow:scroll;">
+                <form method="POST" id=clearMessageForm>
+                {{ clear_message_form.hidden_tag() }}
+                    <div class="collapse mb-2 {% if current_user.message_removed %}show{% endif %}" id="message_form" style="max-height:500px;overflow:scroll;">
                         <div class="card card-body">
                             {% for message in messages %}
                                 {% set username = user.query.filter_by(id=message.sender_id).first().username %}
@@ -102,6 +104,13 @@
                                             {{ message.body }}
                                         </p>
                                         <small>@{{ username }}</small>
+                                        
+                                        {{ clear_message_form.message_id }}
+
+                                            <small class="float-right text-danger" id="clearButton"
+                                            onclick="clear_message({{ message.id }})" style="cursor:pointer;">
+                                                <i>Clear</i>
+                                            </small>
                                         <a href="{{ url_for('user.u', username=username) }}">
                                             <small class="float-right"><i>Reply&nbsp;&nbsp;</i></small>
                                         </a>
@@ -111,6 +120,7 @@
                         </div>
                     </div>
                 </div>
+                </form>
             {% elif current_user.is_following(user) %}
                 <button class="btn btn-primary mb-2" type="button" data-toggle="collapse" data-target="#message_form"
                     aria-expanded="false" aria-controls="message_form" onclick="">
@@ -155,5 +165,12 @@
 <div>
     <h2 class="ml-2 mt-3">No content</h2>
 </div>
+
+<script>
+    function clear_message(message_id) {
+        document.getElementById("message_id").value = message_id;
+        document.getElementById("clearMessageForm").submit();
+    }
+</script>
 
 {% endblock %}
