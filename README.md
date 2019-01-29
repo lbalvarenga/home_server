@@ -12,76 +12,89 @@ In order to host *Home Server*, you'll need to install [Python 3](https://www.py
 
 ### Installing
 
-Getting Home Server to start isn't all that hard. As long as you follow the commands, you'll get it running in no time! Clone the repository and extract it to a desired location. Then, fire up the command line on the *home_server* directory.
+Getting Home Server to start is pretty simple. Clone the repository into a desired location. Then, fire up the command line on the *home_server* directory.
 
-Follow the steps below on your command line to set-up the environment.
+Follow the steps below on your command line to set up the environment.
 
 #### For Windows
 
-\#1: Setting up the environment
+\#1: Setting up the environment:
 
 ```
-py -m venv env
+$: py -m venv env
 ```
 
 \#2: Activating the environment:
 
 ```
-.\env\Scripts\activate
+$: .\env\Scripts\activate
 ```
 
 \#3: Installing the required packages:
 
 ```
-pip install -r requirements.txt
+$: pip install -r requirements.txt
 ```
 
 \#4: Generating the *home_server* database:
 
 ```
-flask db upgrade
+$: flask db init
+$: flask db migrate
+$: flask db upgrade
 ```
 
 \#5: Running the server:
 
 ```
-flask run
+$: flask run
 ```
 
 #### For macOS and Linux
 
-\#1: Setting up the environment
+\#1: Setting up the environment:
 
 ```
-python3 -m venv env
+$: python3 -m venv env
 ```
 
 \#2: Activating the environment:
 
 ```
-source env/bin/activate
+$: source env/bin/activate
 ```
 
 \#3: Installing the required packages:
 
 ```
-pip install -r requirements.txt
+$: pip install -r requirements.txt
 ```
 
 \#4: Generating the *home_server* database:
 
 ```
-flask db upgrade
+$: flask db init
+$: flask db migrate
+$: flask db upgrade
 ```
 
 \#5: Running the server:
 
 ```
-flask run --host=0.0.0.0
+$: flask run
 ```
 
-With the server set-up and visible in your home network, navigate to *localhost:5000* on your web browser. From there, you should be able to register, login and user the **Home Server** app.
+With the server set up, navigate to *localhost:5000* on your web browser. From there, you should be able to register, login and use the **Home Server** app. If you want other people to join in as well, instead of entering
 
+```
+$: flask run
+```
+
+You should enter
+
+```
+$: flask run --host=0.0.0.0
+```
 
 ## Deployment
 
@@ -99,7 +112,7 @@ More information will be provided soon.
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/lukeathedev/home_server/tags). 
 
 ## Authors
 
@@ -107,7 +120,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
 ## Acknowledgments
 

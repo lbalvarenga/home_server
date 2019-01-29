@@ -35,6 +35,7 @@ def login():
             new_user = User(
                 username    = register_form.username.data,
                 email       = register_form.email.data,
+                birthday    = register_form.birthday.data,
                 description = register_form.description.data,
                 gender      = register_form.gender.data
             )
