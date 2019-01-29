@@ -88,25 +88,25 @@
                     Your messages <span class="badge badge-light">{{ new_messages }}</span>
                 </button>
                 <div id="formGroup">
-                    <div class="collapse mb-2 {% if message_form.errors %}show{% endif %}" id="message_form">
-                        <div class="card card-body"  style="max-height:200px;overflow:scroll;">
+                    <div class="collapse mb-2" id="message_form" style="max-height:500px;overflow:scroll;">
+                        <div class="card card-body">
                             {% for message in messages %}
-                            {% set username = user.query.filter_by(id=message.sender_id).first().username %}
-                            <div class="list-group" id="message{{ loop.index }}">
-                                <div class="list-group-item list-group-item-action">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h5 class="mb-1">{{ message.subject }}</h5>
-                                        <small class="text-nowrap">{{ moment(message.timestamp).fromNow() }}</small>
+                                {% set username = user.query.filter_by(id=message.sender_id).first().username %}
+                                <div class="list-group" id="message{{ loop.index }}">
+                                    <div class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">{{ message.subject }}</h5>
+                                            <small class="text-nowrap">{{ moment(message.timestamp).fromNow() }}</small>
+                                        </div>
+                                        <p class="mb-1">
+                                            {{ message.body }}
+                                        </p>
+                                        <small>@{{ username }}</small>
+                                        <a href="{{ url_for('user.u', username=username) }}">
+                                            <small class="float-right"><i>Reply&nbsp;&nbsp;</i></small>
+                                        </a>
                                     </div>
-                                    <p class="mb-1">
-                                        {{ message.body }}
-                                    </p>
-                                    <small>@{{ username }}</small>
-                                    <a href="{{ url_for('user.u', username=username) }}">
-                                        <small class="float-right"><i>Reply&nbsp;&nbsp;</i></small>
-                                    </a>
                                 </div>
-                            </div>
                             {% endfor %}
                         </div>
                     </div>
