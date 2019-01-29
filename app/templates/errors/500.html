@@ -1,0 +1,28 @@
+<title>500 - Internal Error</title>
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="jumbotron">
+
+    <h1 class="display-4 text-danger">500 - Internal Error</h1>
+    <p class="lead">
+        The server is a bit sleepy today! An administrator has probably been notified.
+        If you want to anger him a little bit more, you may <a href="#">contact him</a>.
+    </p>
+
+    <hr class="my-4">
+
+    <p>You can either go back, or listen to some sad music.</p>
+    <a href="{{ url_for('index') }}" class="btn btn-primary btn-lg">
+        Go Back
+    </a>
+    <a href="https://www.youtube.com/watch?v=h-WPexVEujg" target="_blank" class="btn btn-secondary btn-lg">
+        I'm sad
+    </a>
+    </p>
+
+</div>
+
+{% endblock %}
