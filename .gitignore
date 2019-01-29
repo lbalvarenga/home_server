@@ -1,3 +1,5 @@
 **/__pycache__
 **/env
 app.db
+migratons/
+.vscode/**

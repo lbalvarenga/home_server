@@ -8,6 +8,7 @@
         "**/.hg": true,
         "**/.svn": true,
         "**/CVS": true,
-        "env": true
+        "env": true,
+        "migrations": true
     }
 }
