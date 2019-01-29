@@ -1,0 +1,28 @@
+<title>404 - Not Found</title>
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="jumbotron">
+
+    <h1 class="display-4 text-danger">404 - Not Found</h1>
+    <p class="lead">
+        The webpage you were searching for doesn't exist! Please make sure that the URL is correct.
+        If the issue persists, you may <a href="#">contact an administrator</a>.
+    </p>
+
+    <hr class="my-4">
+
+    <p>You can either go back, or listen to some sad music.</p>
+    <a href="{{ url_for('index') }}" class="btn btn-primary btn-lg">
+        Go Back
+    </a>
+    <a href="https://www.youtube.com/watch?v=h-WPexVEujg" target="_blank" class="btn btn-secondary btn-lg">
+        I'm sad
+    </a>
+    </p>
+
+</div>
+
+{% endblock %}
