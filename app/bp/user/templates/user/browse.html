@@ -9,36 +9,28 @@
 
         {% for user in users %}
         {% if current_user.username != user.username %}
-            <div class="card" style="max-width: 300px;">
-                <a href="{{ url_for('user.u', username=user.username) }}">
-                    <img class="card-img-top img-fluid" src="{{ user.avatar(800) }}">
-                </a>
+            <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">@{{ user.username }}</h4>
-                    <h6 class="card-text mb-0">
-                        {% if user.followers.count() == 0 %}No Followers{% endif %}{% if user.followers.count() >= 1 %}{{ user.followers.count() }} Follower{% endif %}{% if user.followers.count() >  1 %}s{% endif %}
-                        
-                    </h6>
-                    <h6>
-                        {% if user.following.count() >= 1 %} {{ user.following.count() }} Following
-                        {% endif %}
-                    </h6>
+                    <a href="{{ url_for('user.u', username=user.username) }}" style="color:black;text-decoration: none;">
+                        <img class="card-img-top" src="{{ user.avatar(2048) }}">
+                    </a>
+
+                    <hr class="my-0">
                     
-                    {% if user.username != current_user.username %}
-                        {% if not current_user.is_following(user) %}
-                            <a href="{{ url_for('user.follow', username=user.username) }}">
-                                <h6>Follow</h6>
-                            </a>
-                        {% else %}
-                            <a href="{{ url_for('user.unfollow', username=user.username) }}">
-                                <h6 class="text-danger">Unfollow</h6>
-                            </a>
+                    <a href="{{ url_for('user.u', username=user.username) }}" style="color:black;text-decoration: none;">
+                        <h2 class="card-title mt-2 mb-0">@{{ user.username }}</h2>
+                    </a>
+                    <small class="card-text text-muted">Last seen {{ moment(user.last_seen).fromNow() }}.</small>
+                    <h5 class="card-text mb-0 mt-2">
+                    {% if user.followers.count() == 0 %}No Followers{% endif %}{% if user.followers.count() >= 1 %}{{
+                    user.followers.count() }} Follower{% endif %}{% if user.followers.count() > 1 %}s{% endif %}
+                    </h5>
+                    <h5 class="card-text mt-0">
+                        {% if
+                        user.following.count() >= 1 %}{{ user.following.count() }} Following
                         {% endif %}
-                    {% endif%}
-        
-                    {% if user.description %}
-                        <h5 class="card-text">"{{ user.description }}"</h5>
-                    {% endif %}
+                    </h5>
+                
                     {% if user.birthday %}
                         <h6 class="card-subtitle mb-2 text-muted">
                             Born {{ moment(user.birthday, "YYYY-MM-DD").format('MMM Do, YYYY') }}.
@@ -46,7 +38,7 @@
                     {% endif %}
                     {% if user.gender %}
                         <h6 class="card-subtitle mb-2 text-muted">
-                            {% if user.gender   == "m" %}Male
+                            {% if user.gender == "m" %}Male
                             {% elif user.gender == "f" %}Female
                             {% elif user.gender == "u" %}Unspecified Gender
                             {% endif %}
@@ -56,6 +48,22 @@
                     <h6 class="card-subtitle mb-2 text-muted">
                         User ID: #{{ user.id }}
                     </h6>
+                
+                    {% if user.username == current_user.username %}
+                        <hr>
+                        <a href="{{ url_for('user.edit') }}" class="btn btn-info">Edit Profile</a>
+                        <a href="#" class="btn btn-primary">Upload</a>
+                    {% else %}
+                        {% if not current_user.is_following(user) %}
+                            <a href="{{ url_for('user.follow', username=user.username) }}" class="btn btn-primary">
+                                Follow @{{ user.username }}
+                            </a>
+                        {% else %}
+                            <a href="{{ url_for('user.unfollow', username=user.username) }}" class="btn btn-danger">
+                                Unfollow @{{ user.username }}
+                            </a>
+                        {% endif %}
+                    {% endif %}
                 </div>
             </div>
         {% endif %}
