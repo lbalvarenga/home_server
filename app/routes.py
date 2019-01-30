@@ -11,6 +11,10 @@ def about():
     return render_template("about.html")
 
 # Error Handling
+@app.errorhandler(400)
+def bad_request(error):
+    return render_template("errors/400.html")
+
 @app.errorhandler(404)
 def not_found(error):
     return render_template("errors/404.html")

@@ -14,10 +14,12 @@ login = LoginManager(app)
 login.login_view = "auth.login"
 moment = Moment(app)
 
-from .bp.auth import auth
-from .bp.user import user
+from .bp.auth  import auth
+from .bp.files import files
+from .bp.user  import user
 
 app.register_blueprint(auth)
+app.register_blueprint(files)
 app.register_blueprint(user)
 
 from app import routes
